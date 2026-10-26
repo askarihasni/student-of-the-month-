@@ -1,0 +1,308 @@
+@import 'tailwindcss';
+
+/* Class-based dark mode: `.dark` is toggled on <html> and persisted. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/* ------------------------------------------------------------------ */
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-2: #f8fafd;
+  --surface-3: #eef1f8;
+  --line: rgba(15, 23, 42, 0.1);
+  --line-strong: rgba(15, 23, 42, 0.2);
+  --text: #131722;
+  --muted: #55607a;
+  --faint: #7d869c;
+  --accent: #6246ea;
+  --accent-hover: #5238d6;
+  --accent-soft: rgba(98, 70, 234, 0.1);
+  --on-accent: #ffffff;
+  --success: #0e9f6e;
+  --success-soft: rgba(14, 159, 110, 0.12);
+  --warning: #c27803;
+  --warning-soft: rgba(194, 120, 3, 0.13);
+  --danger: #d13c3c;
+  --danger-soft: rgba(209, 60, 60, 0.11);
+  --info: #2563eb;
+  --info-soft: rgba(37, 99, 235, 0.11);
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05), 0 6px 24px -12px rgba(15, 23, 42, 0.14);
+  --chart-grid: rgba(15, 23, 42, 0.09);
+  --chart-label: #55607a;
+}
+
+.dark {
+  --bg: #090b11;
+  --surface: #11141c;
+  --surface-2: #161a24;
+  --surface-3: #1d2230;
+  --line: rgba(148, 163, 184, 0.13);
+  --line-strong: rgba(148, 163, 184, 0.26);
+  --text: #e8ebf4;
+  --muted: #99a2b8;
+  --faint: #6c7590;
+  --accent: #7c6cf6;
+  --accent-hover: #8f81ff;
+  --accent-soft: rgba(124, 108, 246, 0.16);
+  --on-accent: #ffffff;
+  --success: #34d399;
+  --success-soft: rgba(52, 211, 153, 0.13);
+  --warning: #fbbf24;
+  --warning-soft: rgba(251, 191, 36, 0.13);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.14);
+  --info: #60a5fa;
+  --info-soft: rgba(96, 165, 250, 0.14);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px -16px rgba(0, 0, 0, 0.7);
+  --chart-grid: rgba(148, 163, 184, 0.12);
+  --chart-label: #99a2b8;
+}
+
+@theme inline {
+  --font-sans: 'Inter Variable', Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+
+  --radius-card: 0.9rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--text);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Component primitives (reusable design system)                       */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .card {
+    @apply rounded-2xl border border-line bg-surface shadow-[var(--shadow-card)];
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:border-line-strong hover:shadow-[var(--shadow-card)];
+  }
+
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border font-medium
+      transition-all duration-150 select-none disabled:cursor-not-allowed disabled:opacity-50
+      active:scale-[0.98];
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    height: 2.375rem;
+    padding-inline: 0.9rem;
+  }
+
+  .btn-sm {
+    height: 2rem;
+    padding-inline: 0.7rem;
+    font-size: 0.8125rem;
+  }
+
+  .btn-lg {
+    height: 2.75rem;
+    padding-inline: 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .btn-primary {
+    @apply border-transparent bg-accent text-on-accent hover:bg-accent-hover;
+    box-shadow: 0 6px 16px -8px var(--accent);
+  }
+
+  .btn-secondary {
+    @apply border-line bg-surface-2 text-text hover:border-line-strong hover:bg-surface-3;
+  }
+
+  .btn-ghost {
+    @apply border-transparent bg-transparent text-muted hover:bg-surface-3 hover:text-text;
+  }
+
+  .btn-danger {
+    @apply border-transparent bg-danger-soft text-danger hover:border-danger/30;
+  }
+
+  .btn-icon {
+    @apply inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border
+      border-transparent text-muted transition-all duration-150 hover:bg-surface-3 hover:text-text
+      disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .btn-icon-sm {
+    @apply inline-flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-md border
+      border-transparent text-muted transition-all duration-150 hover:bg-surface-3 hover:text-text
+      disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .input,
+  .select,
+  .textarea {
+    @apply w-full rounded-lg border border-line bg-surface-2 px-3 text-sm text-text
+      transition-colors duration-150 placeholder:text-faint hover:border-line-strong
+      focus:border-accent focus:outline-none;
+    height: 2.5rem;
+  }
+
+  .textarea {
+    @apply min-h-[88px] py-2 leading-relaxed;
+    height: auto;
+  }
+
+  .select {
+    @apply cursor-pointer appearance-none pr-8;
+    background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+      linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+    background-position: right 16px center, right 11px center;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+
+  .label {
+    @apply mb-1.5 block text-[0.8125rem] font-medium text-muted;
+  }
+
+  .field-error {
+    @apply mt-1 block text-xs font-medium text-danger;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-2.5 py-0.5
+      text-xs font-medium text-muted;
+  }
+
+  .section-title {
+    @apply text-base font-semibold tracking-tight text-text;
+  }
+
+  .muted {
+    @apply text-sm text-muted;
+  }
+
+  .stat-value {
+    @apply text-2xl font-semibold tracking-tight text-text tabular-nums;
+  }
+
+  .divider {
+    @apply border-t border-line;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Utilities                                                           */
+/* ------------------------------------------------------------------ */
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--line-strong);
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility fade-in {
+  animation: lifeos-fade-in 0.22s ease-out both;
+}
+
+@utility slide-up {
+  animation: lifeos-slide-up 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes lifeos-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lifeos-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
